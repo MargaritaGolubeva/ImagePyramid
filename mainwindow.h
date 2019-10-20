@@ -5,6 +5,8 @@
 #include <QMessageBox>
 #include <QFileDialog>
 
+#include "pyramidbuilder.h"
+
 namespace Ui {
 class MainWindow;
 }

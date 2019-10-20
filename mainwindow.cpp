@@ -20,9 +20,13 @@ MainWindow::~MainWindow()
 
 void MainWindow::LoadImage()
 {
+    PyramidBuilder build;
+
     const QString filePath = QFileDialog::getOpenFileName(this, "Open Dialog", "", "*.png *.jpg");
     if (filePath.isEmpty())
         return;
+
+    const double ratio = 2.;
 
     QPixmap imageInfo(filePath);
     QFileInfo fileInfo(filePath);
@@ -37,6 +41,7 @@ void MainWindow::LoadImage()
         if (pixWidth >= 1 && pixHeight >= 1)
         {
             SetImageInfo(imageInfo, fileName);
+            build.BuildPyramid(imageInfo, ratio);
         }
         else QMessageBox::warning(this, "Warning!", "Perhaps the file format is not supported, please, choose another file");
     }

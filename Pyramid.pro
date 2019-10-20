@@ -26,10 +26,12 @@ CONFIG += c++11
 
 SOURCES += \
         main.cpp \
-        mainwindow.cpp
+        mainwindow.cpp \
+        pyramidbuilder.cpp
 
 HEADERS += \
-        mainwindow.h
+        mainwindow.h \
+        pyramidbuilder.h
 
 FORMS += \
         mainwindow.ui

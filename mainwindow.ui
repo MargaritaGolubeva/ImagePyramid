@@ -17,6 +17,13 @@
    <layout class="QGridLayout" name="gridLayout_3">
     <item row="0" column="0">
      <layout class="QGridLayout" name="gridLayout">
+      <item row="2" column="0">
+       <widget class="QLabel" name="labelImage">
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
       <item row="0" column="0">
        <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
@@ -25,6 +32,9 @@
            <string/>
           </property>
          </widget>
+        </item>
+        <item>
+         <widget class="QComboBox" name="comboBoxLayer"/>
         </item>
         <item>
          <widget class="QLabel" name="labelImageSize">
@@ -46,17 +56,10 @@
            <x>0</x>
            <y>0</y>
            <width>609</width>
-           <height>477</height>
+           <height>470</height>
           </rect>
          </property>
         </widget>
-       </widget>
-      </item>
-      <item row="2" column="0">
-       <widget class="QLabel" name="labelImage">
-        <property name="text">
-         <string/>
-        </property>
        </widget>
       </item>
      </layout>

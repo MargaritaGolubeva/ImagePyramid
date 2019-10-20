@@ -20,10 +20,15 @@ public:
     ~MainWindow();
 private slots:
     void LoadImage();
+    void SelectLayer(int index);
 private:
     Ui::MainWindow *ui;
 
-    void SetImageInfo(QPixmap imageMain, QString fileName);
+    QPixmap imageInfoMain;
+    QVector<QVector<int>> pyramid;
+
+    void SetImageInfo(QPixmap imageMainSize, QPixmap imageNewSize);
+    void MakeListLayer(QVector<QVector<int>> pyramid);
 };
 
 #endif // MAINWINDOW_H

@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QMessageBox>
 #include <QFileDialog>
+#include <QMap>
 
 #include "pyramidbuilder.h"
 
@@ -18,14 +19,18 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+
 private slots:
     void LoadImage();
     void SelectLayer(int index);
+    void SelectFile(int index);
 private:
     Ui::MainWindow *ui;
 
-    QPixmap imageInfoMain;
     QVector<QVector<int>> pyramid;
+    QMultiMap <double, QFileInfo> diagFiles;
+
+    const double ratio = 2.;
 
     void SetImageInfo(QPixmap imageMainSize, QPixmap imageNewSize);
     void MakeListLayer(QVector<QVector<int>> pyramid);

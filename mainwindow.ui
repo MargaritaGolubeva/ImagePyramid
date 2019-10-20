@@ -29,9 +29,12 @@
         <item>
          <widget class="QLabel" name="labelImageName">
           <property name="text">
-           <string/>
+           <string>File name:</string>
           </property>
          </widget>
+        </item>
+        <item>
+         <widget class="QComboBox" name="comboBoxFile"/>
         </item>
         <item>
          <widget class="QComboBox" name="comboBoxLayer"/>

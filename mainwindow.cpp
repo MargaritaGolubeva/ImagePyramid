@@ -12,6 +12,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(open, SIGNAL(triggered()), this, SLOT(LoadImage()));
     connect(ui->comboBoxLayer, SIGNAL(activated(int)), this, SLOT(SelectLayer(int)));
+    connect(ui->comboBoxFile, SIGNAL(activated(int)), this, SLOT(SelectFile(int)));
 }
 
 MainWindow::~MainWindow()
@@ -27,9 +28,7 @@ void MainWindow::LoadImage()
     if (filePath.isEmpty())
         return;
 
-    const double ratio = 2.;
-
-    imageInfoMain = filePath;
+    QPixmap imageInfoMain(filePath);
     QFileInfo fileInfo(filePath);
     QString fileName = fileInfo.fileName();
     QString fileFormat = fileInfo.completeSuffix();
@@ -41,6 +40,14 @@ void MainWindow::LoadImage()
     {
         if (pixWidth >= 1 && pixHeight >= 1)
         {
+            diagFiles.insert((pixWidth * pixHeight) / 2., fileInfo);
+
+            ui->comboBoxFile->clear();
+            for(const auto &fileInfo : diagFiles)
+            {
+                ui->comboBoxFile->addItem(fileInfo.fileName());
+            }
+
             SetImageInfo(imageInfoMain, imageInfoMain);
             pyramid = build.BuildPyramid(imageInfoMain, ratio);
 
@@ -69,7 +76,25 @@ void MainWindow::MakeListLayer(QVector<QVector<int>> pyramid)
 
 void MainWindow::SelectLayer(int index)
 {
-    QPixmap imageMain = imageInfoMain;
-    QPixmap imageScaled = imageMain.scaled(pyramid[index][0], pyramid[index][1]);
-    SetImageInfo(imageScaled.scaled(imageMain.width(), imageMain.height()), imageScaled);
+    int indexFile = ui->comboBoxFile->currentIndex();
+
+    QMultiMap <double, QFileInfo>::const_iterator it = diagFiles.begin() + indexFile;
+    QPixmap imageInfoMain(it.value().filePath());
+
+    QPixmap imageScaled = imageInfoMain.scaled(pyramid[index][0], pyramid[index][1]);
+    SetImageInfo(imageScaled.scaled(imageInfoMain.width(), imageInfoMain.height()), imageScaled);
 }
+
+void MainWindow::SelectFile(int index)
+{
+   PyramidBuilder build;
+
+   QMultiMap <double, QFileInfo>::const_iterator it = diagFiles.begin() + index;
+   QPixmap imageInfoMain(it.value().filePath());
+
+   pyramid = build.BuildPyramid(imageInfoMain, ratio);
+
+   SetImageInfo(imageInfoMain, imageInfoMain);
+   MakeListLayer(pyramid);
+}
+

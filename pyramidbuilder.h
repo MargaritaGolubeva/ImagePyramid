@@ -11,6 +11,7 @@ public:
     explicit PyramidBuilder(QWidget *parent = nullptr);
 
     int CountLayer(QPixmap imageInfo, const double ratio);
+    QPixmap GenerationLayer(QPixmap image, int numberLayer, double ratio);
 private:
     double CalculateLog(double a, double b);
 signals:

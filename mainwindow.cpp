@@ -10,6 +10,10 @@ MainWindow::MainWindow(QWidget *parent) :
     QMenu *file = menuBar()->addMenu(tr("&File"));
     QAction *open = file->addAction(tr("&Open"));
 
+    QDoubleValidator validator(1.1, 10000.0, 1);
+    validator.setLocale(QLocale::English);
+    ui->lineEditRatio->setValidator(&validator);
+
     connect(open, SIGNAL(triggered()), this, SLOT(LoadImage()));
     connect(ui->comboBoxLayer, SIGNAL(activated(int)), this, SLOT(SelectLayer(int)));
     connect(ui->comboBoxFile, SIGNAL(activated(int)), this, SLOT(SelectFile(int)));
@@ -22,6 +26,8 @@ MainWindow::~MainWindow()
 
 void MainWindow::LoadImage()
 {
+    ui->labelRatio->setText("2");
+
     PyramidBuilder build;
 
     const QString filePath = QFileDialog::getOpenFileName(this, "Open Dialog", "", "*.png *.jpg");
@@ -35,6 +41,7 @@ void MainWindow::LoadImage()
 
     const int pixWidth = imageInfoMain.width();
     const int pixHeight = imageInfoMain.height();
+    const double ratio = 2.;
 
     if (fileFormat == "png" || fileFormat == "jpg")
     {
@@ -50,8 +57,10 @@ void MainWindow::LoadImage()
 
             const int countLayer = build.CountLayer(imageInfoMain, ratio);
 
-            SetImageInfo(imageInfoMain, imageInfoMain);
             MakeListLayer(countLayer);
+            SetImageInfo(imageInfoMain, imageInfoMain);
+
+            connect(ui->lineEditRatio, SIGNAL(returnPressed()), this, SLOT(ChangeRatio()));
         }
         else QMessageBox::warning(this, "Warning!", "Perhaps the file format is not supported, please, choose another file");
     }
@@ -76,8 +85,11 @@ void MainWindow::MakeListLayer(int countLayer)
 
 void MainWindow::SelectLayer(int index)
 {
+    const double ratio = ui->labelRatio->text().toDouble();
+
+    PyramidBuilder build;
     QPixmap imageInfoMain = GetMainImage();
-    QPixmap imageScaled = GenerationLayer(imageInfoMain, index);
+    QPixmap imageScaled = build.GenerationLayer(imageInfoMain, index, ratio);
     SetImageInfo(imageScaled.scaled(imageInfoMain.width(), imageInfoMain.height()), imageScaled);
 }
 
@@ -88,18 +100,11 @@ void MainWindow::SelectFile(int index)
    QMultiMap <double, QFileInfo>::const_iterator it = diagFiles.begin() + index;
    QPixmap imageInfoMain(it.value().filePath());
 
+   const double ratio = ui->labelRatio->text().toDouble();
    const int countLayer = build.CountLayer(imageInfoMain, ratio);
 
    SetImageInfo(imageInfoMain, imageInfoMain);
    MakeListLayer(countLayer);
-}
-
-QPixmap MainWindow::GenerationLayer(QPixmap image, int numberLayer)
-{
-    double pow = qPow(ratio, numberLayer);
-    int newWidth = qFloor(image.width()/pow);
-    int newHeigh = qFloor(image.height()/pow);
-    return image.scaled(newWidth, newHeigh);
 }
 
 QPixmap MainWindow::GetMainImage()
@@ -108,5 +113,17 @@ QPixmap MainWindow::GetMainImage()
     QMultiMap <double, QFileInfo>::const_iterator it = diagFiles.begin() + indexFile;
     QPixmap imageInfo(it.value().filePath());
     return imageInfo;
+}
+
+void MainWindow::ChangeRatio()
+{
+   PyramidBuilder build;
+   QPixmap imageInfoMain = GetMainImage();
+   const double ratio = ui->lineEditRatio->text().toDouble();
+   const int countLayer = build.CountLayer(imageInfoMain, ratio);
+
+   ui->labelRatio->setText((ui->lineEditRatio->text()).replace(",","."));
+
+   MakeListLayer(countLayer);
 }
 

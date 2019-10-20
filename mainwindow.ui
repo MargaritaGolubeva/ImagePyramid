@@ -7,63 +7,95 @@
     <x>0</x>
     <y>0</y>
     <width>631</width>
-    <height>592</height>
+    <height>590</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <layout class="QGridLayout" name="gridLayout_3">
+   <layout class="QGridLayout" name="gridLayout_4">
     <item row="0" column="0">
-     <layout class="QGridLayout" name="gridLayout">
-      <item row="2" column="0">
-       <widget class="QLabel" name="labelImage">
-        <property name="text">
-         <string/>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="0">
-       <layout class="QHBoxLayout" name="horizontalLayout">
+     <layout class="QGridLayout" name="gridLayout_3">
+      <item row="1" column="0">
+       <layout class="QHBoxLayout" name="horizontalLayout_2">
         <item>
-         <widget class="QLabel" name="labelImageName">
+         <widget class="QLabel" name="label">
           <property name="text">
-           <string>File name:</string>
+           <string>Reduction ratio of the layer:</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QComboBox" name="comboBoxFile"/>
-        </item>
-        <item>
-         <widget class="QComboBox" name="comboBoxLayer"/>
-        </item>
-        <item>
-         <widget class="QLabel" name="labelImageSize">
+         <widget class="QLabel" name="labelRatio">
           <property name="text">
            <string/>
           </property>
          </widget>
         </item>
+        <item>
+         <widget class="QLabel" name="label_3">
+          <property name="text">
+           <string>                    Change ratio (&gt;1.) </string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="lineEditRatio"/>
+        </item>
        </layout>
       </item>
-      <item row="1" column="0">
-       <widget class="QScrollArea" name="scrollAreaImage">
-        <property name="widgetResizable">
-         <bool>true</bool>
-        </property>
-        <widget class="QWidget" name="scrollAreaWidgetContents">
-         <property name="geometry">
-          <rect>
-           <x>0</x>
-           <y>0</y>
-           <width>609</width>
-           <height>470</height>
-          </rect>
-         </property>
-        </widget>
-       </widget>
+      <item row="0" column="0">
+       <layout class="QGridLayout" name="gridLayout">
+        <item row="2" column="0">
+         <widget class="QLabel" name="labelImage">
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0">
+         <layout class="QHBoxLayout" name="horizontalLayout">
+          <item>
+           <widget class="QLabel" name="labelImageName">
+            <property name="text">
+             <string>File name:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QComboBox" name="comboBoxFile"/>
+          </item>
+          <item>
+           <widget class="QComboBox" name="comboBoxLayer"/>
+          </item>
+          <item>
+           <widget class="QLabel" name="labelImageSize">
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="1" column="0">
+         <widget class="QScrollArea" name="scrollAreaImage">
+          <property name="widgetResizable">
+           <bool>true</bool>
+          </property>
+          <widget class="QWidget" name="scrollAreaWidgetContents">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>0</y>
+             <width>607</width>
+             <height>438</height>
+            </rect>
+           </property>
+          </widget>
+         </widget>
+        </item>
+       </layout>
       </item>
      </layout>
     </item>

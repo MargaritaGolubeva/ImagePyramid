@@ -17,3 +17,11 @@ int PyramidBuilder::CountLayer(QPixmap imageInfo, const double ratio)
 
     return qFloor(CalculateLog(ratio, qMin(widthImage, heightImage)) + 1.);
 }
+
+QPixmap PyramidBuilder::GenerationLayer(QPixmap image, int numberLayer, double ratio)
+{
+    double pow = qPow(ratio, numberLayer);
+    int newWidth = qFloor(image.width()/pow);
+    int newHeigh = qFloor(image.height()/pow);
+    return image.scaled(newWidth, newHeigh);
+}

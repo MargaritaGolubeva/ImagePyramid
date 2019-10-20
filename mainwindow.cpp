@@ -48,10 +48,10 @@ void MainWindow::LoadImage()
                 ui->comboBoxFile->addItem(fileInfo.fileName());
             }
 
-            SetImageInfo(imageInfoMain, imageInfoMain);
-            pyramid = build.BuildPyramid(imageInfoMain, ratio);
+            const int countLayer = build.CountLayer(imageInfoMain, ratio);
 
-            MakeListLayer(pyramid);
+            SetImageInfo(imageInfoMain, imageInfoMain);
+            MakeListLayer(countLayer);
         }
         else QMessageBox::warning(this, "Warning!", "Perhaps the file format is not supported, please, choose another file");
     }
@@ -65,10 +65,10 @@ void MainWindow::SetImageInfo(QPixmap imageMainSize, QPixmap imageNewSize)
     ui->labelImageSize->setText("Size: " + QString::number(imageNewSize.width()) + "x" + QString::number(imageNewSize.height()));
 }
 
-void MainWindow::MakeListLayer(QVector<QVector<int>> pyramid)
+void MainWindow::MakeListLayer(int countLayer)
 {
     ui->comboBoxLayer->clear();
-    for(int i = 0;i < pyramid.size(); i++)
+    for(int i = 0;i < countLayer; i++)
     {
         ui->comboBoxLayer->addItem(QString::number(i));
     }
@@ -76,12 +76,8 @@ void MainWindow::MakeListLayer(QVector<QVector<int>> pyramid)
 
 void MainWindow::SelectLayer(int index)
 {
-    int indexFile = ui->comboBoxFile->currentIndex();
-
-    QMultiMap <double, QFileInfo>::const_iterator it = diagFiles.begin() + indexFile;
-    QPixmap imageInfoMain(it.value().filePath());
-
-    QPixmap imageScaled = imageInfoMain.scaled(pyramid[index][0], pyramid[index][1]);
+    QPixmap imageInfoMain = GetMainImage();
+    QPixmap imageScaled = GenerationLayer(imageInfoMain, index);
     SetImageInfo(imageScaled.scaled(imageInfoMain.width(), imageInfoMain.height()), imageScaled);
 }
 
@@ -92,9 +88,25 @@ void MainWindow::SelectFile(int index)
    QMultiMap <double, QFileInfo>::const_iterator it = diagFiles.begin() + index;
    QPixmap imageInfoMain(it.value().filePath());
 
-   pyramid = build.BuildPyramid(imageInfoMain, ratio);
+   const int countLayer = build.CountLayer(imageInfoMain, ratio);
 
    SetImageInfo(imageInfoMain, imageInfoMain);
-   MakeListLayer(pyramid);
+   MakeListLayer(countLayer);
+}
+
+QPixmap MainWindow::GenerationLayer(QPixmap image, int numberLayer)
+{
+    double pow = qPow(ratio, numberLayer);
+    int newWidth = qFloor(image.width()/pow);
+    int newHeigh = qFloor(image.height()/pow);
+    return image.scaled(newWidth, newHeigh);
+}
+
+QPixmap MainWindow::GetMainImage()
+{
+    int indexFile = ui->comboBoxFile->currentIndex();
+    QMultiMap <double, QFileInfo>::const_iterator it = diagFiles.begin() + indexFile;
+    QPixmap imageInfo(it.value().filePath());
+    return imageInfo;
 }
 

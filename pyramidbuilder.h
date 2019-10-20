@@ -10,7 +10,7 @@ class PyramidBuilder : public QMainWindow
 public:
     explicit PyramidBuilder(QWidget *parent = nullptr);
 
-    QVector<QVector<int>> BuildPyramid(QPixmap imageInfo, const double ratio);
+    int CountLayer(QPixmap imageInfo, const double ratio);
 private:
     double CalculateLog(double a, double b);
 signals:

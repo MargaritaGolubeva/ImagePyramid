@@ -27,13 +27,14 @@ private slots:
 private:
     Ui::MainWindow *ui;
 
-    QVector<QVector<int>> pyramid;
     QMultiMap <double, QFileInfo> diagFiles;
 
     const double ratio = 2.;
 
     void SetImageInfo(QPixmap imageMainSize, QPixmap imageNewSize);
-    void MakeListLayer(QVector<QVector<int>> pyramid);
+    void MakeListLayer(int countLayer);
+    QPixmap GenerationLayer(QPixmap image, int numberLayer);
+    QPixmap GetMainImage();
 };
 
 #endif // MAINWINDOW_H
